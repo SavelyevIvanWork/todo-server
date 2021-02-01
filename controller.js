@@ -1,6 +1,5 @@
 const db = require("./db");
 
-
 exports.todo_get = async function (req, res) {
     const todoList = await db.todo_get();
     res.json(todoList);
