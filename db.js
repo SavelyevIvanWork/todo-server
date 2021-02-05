@@ -1,9 +1,12 @@
 //Создаём экземпляр модели
-const TodoModel = require('./models')
+const TodoModel = require('./models/todoModel')
 
-exports.todo_create = async function ({id, complited, message}) {
+const mongoose = require("mongoose");
+
+exports.todo_create = async function ({complited, message}) {
+    const id = mongoose.Types.ObjectId()
     const todo_instance = new TodoModel({
-        id,
+        id: id.toString(),
         complited,
         message
     })
@@ -17,16 +20,12 @@ exports.todo_get = async function () {
     return await TodoModel.find()
 }
 
-exports.todo_update = async function ({complited, message}) {
-    if (complited) {
-        return await TodoModel.updateOne({complited})
-    } else if (message) {
-        return await TodoModel.updateOne({message})
-    }
+exports.todo_update = async function (id, {complited}) {
+    return await TodoModel.updateOne({id}, {complited})
 }
 
 exports.todo_delete = async function (id) {
-    return await TodoModel.deleteOne({ id });
+    return await TodoModel.deleteOne({id});
 }
 
 

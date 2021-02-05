@@ -1,4 +1,4 @@
-const db = require("./db");
+const db = require("../db");
 
 exports.todo_get = async function (req, res) {
     const todoList = await db.todo_get();
@@ -11,7 +11,7 @@ exports.todo_create = async function (req, res) {
 }
 
 exports.todo_update = async function (req, res) {
-    const todoUpdate = await db.todo_update(req.body);
+    const todoUpdate = await db.todo_update(req.params.id, req.body);
     res.json(todoUpdate);
 }
 

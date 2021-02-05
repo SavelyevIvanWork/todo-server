@@ -2,9 +2,10 @@ const express = require('express')
 const mongoose = require('mongoose');
 
 // Создаём схему
+
 const Schema = mongoose.Schema;
 const TodoModelSchema = new Schema({
-    id: Number,
+    id: String,
     complited: Boolean,
     message: String
 });

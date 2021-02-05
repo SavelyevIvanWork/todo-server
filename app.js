@@ -2,34 +2,22 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const app = express();
-const cors = require('cors')
-const home_route = require('./routers')
+const home_route = require('./routers/routers')
 
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/todo', home_route)
 
-// Access-Control-Allow-Origin: http://foo.example
-// Access-Control-Allow-Methods: POST, GET, OPTIONS
-// Access-Control-Allow-Headers: X-PINGOTHER, Content-Type
-// Access-Control-Max-Age: 86400
-
-
-// var corsOptions = {
-//     origin: 'http://example.com',
-//     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-//   }
-
-mongoose.set('bufferCommands', false); // отключить команды буффера
+// mongoose.set('bufferCommands', false); // отключить команды буффера
 
 //Установим подключение
 const mongoDB = 'mongodb+srv://user:user@cluster0.npczf.mongodb.net/todobd?retryWrites=true&w=majority';
-mongoose.connect(mongoDB, {useNewUrlParser: true});
+mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.Promise = global.Promise;
 
 // Получение подключения по умолчанию
-var db = mongoose.connection;
+const db = mongoose.connection;
 
 // Привязать подключение к событию ошибки  (получать сообщения об ошибках подключения)
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
