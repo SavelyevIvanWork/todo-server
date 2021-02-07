@@ -7,7 +7,8 @@ const Schema = mongoose.Schema;
 const TodoModelSchema = new Schema({
     id: String,
     complited: Boolean,
-    message: String
+    message: String,
+    user: { type: Schema.Types.ObjectId, ref: 'User' }
 });
 
 // Компилируем модель из схемы
