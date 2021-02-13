@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const todo_controller = require('../controllers/todoController');
+const todoController = require('../controllers/todoController');
 const cors = require('cors')
 const userController = require("../controllers/userController");
 const {check} = require('express-validator')
@@ -11,17 +11,18 @@ const {verifyUser} = require("../verifyUser");
 //         // "exposedHeaders": 'Content-Length, X-Foo, X-Bar',
 // }
 
-router.get('/',verifyUser, todo_controller.todo_get)
-router.post('/', verifyUser, todo_controller.todo_create);
-router.put('/:id', verifyUser, todo_controller.todo_update);
-router.delete('/:id',verifyUser, todo_controller.todo_delete);
-
+router.get('/', verifyUser, todoController.todoGet)
+router.post('/', verifyUser, todoController.todoCreate);
+router.put('/:id', verifyUser, todoController.todoUpdate);
+router.post('/all-todo-completed', verifyUser, todoController.allTodoUpdate);
+router.delete('/:id', verifyUser, todoController.todoDelete);
+router.post('/all-todo-delete', verifyUser, todoController.allTodoDelete);
 
 router.post('/registration', [check ('username', 'Имя пользователя не должно быть пустым!').notEmpty(),
     check('password', 'Пароль должен быть не меньше 4 и не больше 10 символов!').isLength({min: 4, max: 10})],
-    userController.registration)
+    userController.userRegistration)
 
-router.post('/login', userController.login)
+router.post('/login', userController.userLogin)
 
 
 module.exports = router;

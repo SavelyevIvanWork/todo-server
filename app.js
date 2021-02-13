@@ -3,17 +3,17 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const app = express();
 const home_route = require('./routers/routers')
-
+require('dotenv').config();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/todo', home_route)
 
+
 // mongoose.set('bufferCommands', false); // отключить команды буффера
 
 //Установим подключение
-const mongoDB = 'mongodb+srv://user:user@cluster0.npczf.mongodb.net/todobd?retryWrites=true&w=majority';
-mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(process.env.URL, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
 mongoose.Promise = global.Promise;
 
 // Получение подключения по умолчанию

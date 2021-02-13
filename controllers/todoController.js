@@ -1,24 +1,38 @@
-const db = require("../db");
+const todo = require('../models/todoModel');
 
-exports.todo_get = async function (req, res) {
-    const todoList = await db.todo_get(req.userId);
+exports.todoGet = async function (req, res) {
+    const todoList = await todo.todoGet(req.userId);
     res.json(todoList);
 };
 
-exports.todo_create = async function (req, res) {
-    const newTodo = await db.todo_create(req.userId,req.body);
+exports.todoCreate = async function (req, res) {
+    const newTodo = await todo.todoCreate(req.userId,req.body);
     res.json(newTodo);
 }
 
-exports.todo_update = async function (req, res) {
-    const todoUpdate = await db.todo_update(req.userId,req.params.id, req.body);
-    res.json(todoUpdate);
+exports.todoUpdate = async function (req, res) {
+        const todoUp = await todo.todoUpdate(req.userId, req.body.id, req.body.completed);
+        res.json(todoUp);
 }
 
-exports.todo_delete = async function (req,res) {
-    await db.todo_delete(req.userId,req.params.id);
+exports.allTodoUpdate = async function (req, res) {
+    try {
+        const allTodoCompleted = await todo.allTodoUpdate(req.userId);
+        res.json(allTodoCompleted);
+    } catch (e) {
+        res.status(400).json({message: 'ошибка сервера'})
+    }
+
+}
+
+exports.todoDelete = async function (req, res) {
+    await todo.todoDelete(req.userId, req.params.id);
     res.send("task has been remove");
 }
 
+exports.allTodoDelete = async function (req, res) {
+    await todo.allTodoDelete(req.userId, req.body.completed);
+    res.send("tasks has been remove");
+}
 
 

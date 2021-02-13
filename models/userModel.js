@@ -7,5 +7,19 @@ const User = new Schema({
     password: {type: String, required: true}
 });
 
-module.exports = model('User', User);
+const UserModels = model('User', User);
+
+exports.userSearch = function({username}) {
+    return UserModels.findOne({username})
+}
+
+exports.userCreate = async function ({username, password}) {
+    const user = new UserModels({
+        username,
+        password
+    })
+    return await user.save();
+}
+
+
 
